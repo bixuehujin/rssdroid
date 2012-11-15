@@ -1,4 +1,4 @@
-package me.hujin.rss.reader;
+package me.hujin.rss.parser;
 
 
 /**
@@ -41,7 +41,7 @@ public class RSSItem {
 		return this.link;
 	}
 	
-	public RSSItem getLink(String link) {
+	public RSSItem setLink(String link) {
 		this.link = link;
 		return this;
 	}
