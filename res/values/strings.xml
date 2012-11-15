@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="app_name">Rss Reader</string>
+    <string name="add_feed_title">Add RSS Feed</string>
+    
+	<string name="feed_name">Feed Name</string>
+	<string name="feed_name_hit">Input the feed name, can be blank</string>
+	<string name="feed_url">Feed URL</string>
+	<string name="feed_url_hit">Input the url of your feed</string>
+	<string name="add_feed_btn">Add Feed</string>
+    
+	<string name="add_feed_progress_label">Fetching ...</string>
+	
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="search_tip_message">Input keywords to search</string>
+    <string name="search_button_label">Search</string>
+    <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="title_activity_add_feed">AddFeedActivity</string>
+
+</resources>
