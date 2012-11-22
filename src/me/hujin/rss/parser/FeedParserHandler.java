@@ -18,6 +18,7 @@ public class FeedParserHandler extends DefaultHandler {
 	
 	public FeedParserHandler(IParserListener listener) {
 		this.listener = listener;
+		feed = new RSSFeed();
 	}
 	
 	public RSSFeed getFeed() {
@@ -25,7 +26,7 @@ public class FeedParserHandler extends DefaultHandler {
 	}
 	
 	public void startDocument() throws SAXException{
-		feed = new RSSFeed();
+		
 	}
 	
 	public void startElement(String uri, String localName, 

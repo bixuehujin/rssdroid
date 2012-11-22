@@ -2,25 +2,28 @@ package me.hujin.rss.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.UnknownHostException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.DefaultClientConnection;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 
 public class FeedParser {
 
-	
-	private String url;
 	
 	private IParserListener listener;
 	
@@ -28,36 +31,13 @@ public class FeedParser {
 	
 	private SAXParser parser;
 	
-	private RSSFeed feed;
+	private ClientConnectionManager connManager;
 	
-	public FeedParser() {
-		url = null;
-	}
-	
-	public FeedParser(String url) {
-		this.url = url;
-	}
-	
-	public static void main(String[] args) {
-
-	}
-	
-	public void setUrl(String url) {
-		this.url = url;
-	}
 	
 	public void init() {
-			
-		try {
-			
-			parser = SAXParserFactory.newInstance().newSAXParser();
-			
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
+		if(parser != null) {
+			return;
 		}
-			
 		
 		if(listener == null) {
 			listener = new DefaultParserListener();
@@ -66,38 +46,53 @@ public class FeedParser {
 	}
 	
 	
-	public void load() {
+	public void load(String url) {
 		init();
-
-		try {
-			parser.parse("uri", handler);
-			
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		HttpClient client = new DefaultHttpClient();
-		HttpGet request = new HttpGet("http://zhihu.com/rss");
-		ClientConnectionManager manager = client.getConnectionManager();
-		
-		manager.shutdown();
-		
+		HttpGet request = new HttpGet(url);
+		connManager = client.getConnectionManager();
 		try {
 			HttpResponse response = client.execute(request);
 			
 			InputStream stream = response.getEntity().getContent();
 			
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			try {
+				parser = factory.newSAXParser();
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+			XMLReader xmlreader = parser.getXMLReader();
+			xmlreader.setContentHandler(handler);
+			InputSource is = new InputSource(stream);
+			xmlreader.parse(is);
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
+	/**
+	 * set a custom parser listener.
+	 * 
+	 * @param listener a listener implement IParserListener Interface.
+	 */
 	public void setParserListener(IParserListener listener) {
 		this.listener = listener;
+	}
+	
+	/**
+	 * stop feed parse and disconnect http connection.
+	 */
+	public void stop() {
+		connManager.shutdown();
+	}
+	
+	/**
+	 * get rss feed object.
+	 */
+	public RSSFeed getFeed() {
+		return handler.getFeed();
 	}
 }

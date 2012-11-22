@@ -1,6 +1,9 @@
 package me.hujin.rss.reader;
 
-import me.hujin.rss.reader.R;
+import java.util.List;
+
+import me.hujin.rss.storage.Feed;
+import me.hujin.rss.storage.FeedDataSource;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +14,10 @@ import android.widget.ListView;
 
 public class MainActivity extends ListActivity {
 
-	static String[] values = new String[] {"Linux", "PHP"};
+	public final static String FEED_INFO = "feed_info";
+	
+	private FeedDataSource dataSource;
+	private FeedListViewAdapter listAdapter;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,12 +26,15 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
         
         //ListView feedListView = (ListView) findViewById(R.id.feed_list);
-        FeedListViewAdapter feedListAdapter = new FeedListViewAdapter(this, android.R.layout.simple_list_item_1, values);
         
-        //feedListView.setAdapter(feedListAdapter);
+        
+        dataSource = new FeedDataSource(this);
+        dataSource.open();
+        
+        List<Feed> values = dataSource.getAllFeeds();
+        listAdapter = new FeedListViewAdapter(this, R.layout.feed_list_item, values);
         System.out.println("start");
-        setListAdapter(feedListAdapter);
-        
+        setListAdapter(listAdapter);
     }
 
     @Override
@@ -37,11 +46,28 @@ public class MainActivity extends ListActivity {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
     	super.onListItemClick(l, v, position, id);
+    	System.out.println("opening " + listAdapter.getItem(position).getLink() + "...");
     	
-    }
-    
-    public void onAddFeedClick(View v) {
-    	Intent intent = new Intent(this, AddFeedActivity.class);
+    	Intent intent = new Intent(MainActivity.this, FeedListActivity.class);
+    	intent.putExtra(FEED_INFO, listAdapter.getItem(position));
+    	
     	startActivity(intent);
     }
+    
+    /**
+     * start AddFeedActivity 
+     * @param view
+     */
+    public void onAddFeedClick(View view) {
+    	Intent intent = new Intent(MainActivity.this, AddFeedActivity.class);
+    	startActivity(intent);
+    }
+    
+
+	@Override
+	protected void onPostResume() {
+		// TODO Auto-generated method stub
+		super.onPostResume();
+		System.out.println("post resume");
+	}
 }

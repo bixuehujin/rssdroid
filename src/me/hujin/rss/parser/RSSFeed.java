@@ -48,4 +48,26 @@ public class RSSFeed {
 	public List<RSSItem> getItems() {
 		return items;
 	}
+	
+	/**
+	 * print feed information to console.
+	 */
+	public void printFeed() {
+		System.out.println("title: " + title);
+		System.out.println("desc:  " + description);
+		System.out.println("last:  " + lastBuildDate);
+	}
+	
+	/**
+	 * check the if the feed is valid.
+	 * 
+	 * @return
+	 */
+	public boolean valid() {
+		if(title != null && description != null && lastBuildDate != null && link != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }
