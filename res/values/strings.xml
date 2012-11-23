@@ -16,5 +16,6 @@
     <string name="title_activity_search_result">SearchResultActivity</string>
     <string name="title_activity_add_feed">AddFeedActivity</string>
     <string name="title_activity_feed_list">FeedListActivity</string>
+    <string name="title_activity_feed_view">FeedViewActivity</string>
 
 </resources>

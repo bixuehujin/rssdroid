@@ -1,29 +1,19 @@
 package me.hujin.rss.parser;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.UnknownHostException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 
 public class FeedParser {
-
 	
 	private IParserListener listener;
 	
@@ -42,7 +32,7 @@ public class FeedParser {
 		if(listener == null) {
 			listener = new DefaultParserListener();
 		}
-		handler = new FeedParserHandler(listener);
+		handler = new FeedParserHandler(this, listener);
 	}
 	
 	
@@ -65,6 +55,7 @@ public class FeedParser {
 			XMLReader xmlreader = parser.getXMLReader();
 			xmlreader.setContentHandler(handler);
 			InputSource is = new InputSource(stream);
+			
 			xmlreader.parse(is);
 			
 		} catch (Exception e) {

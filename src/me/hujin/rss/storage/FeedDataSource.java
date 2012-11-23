@@ -3,35 +3,58 @@ package me.hujin.rss.storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.hujin.rss.parser.RSSFeed;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-public class FeedDataSource {
-
-	private SQLiteDatabase db;
-	private RssRoidSqliteHelper dbHelper;
-	
+public class FeedDataSource extends DataSourceBase{
 	
 	public FeedDataSource(Context context) {
-		dbHelper = new RssRoidSqliteHelper(context);
+		super(context);
 	}
-	
-	public void open() {
-		db = dbHelper.getWritableDatabase();
-	}
-	
-	public void close() {
-		dbHelper.close();
-	}
-	
-	public Feed addFeed() {
-		
+
+	public Feed addFeed(RSSFeed rssFeed) {
 		Feed newFeed = new Feed();
+		ContentValues values = new ContentValues();
+		values.put("title", rssFeed.title);
+		values.put("description", rssFeed.description);
+		values.put("link", rssFeed.link);
+		values.put("last_build_date", rssFeed.getLastBuildTimestamp());
+		
+		long fid = db.insert(RssRoidSqliteHelper.TB_FEED, null, values);
+		
+		newFeed.setFid(fid);
+		newFeed.setTitle(rssFeed.title);
+		newFeed.setDescription(rssFeed.description);
+		newFeed.setLastBuildDate(rssFeed.getLastBuildTimestamp());
 		
 		return newFeed;
 	}
 	
+	/**
+	 * delete a feed and all its items form database.
+	 * @param fid
+	 * @return
+	 */
+	public boolean delete(long fid) {
+		db.delete(RssRoidSqliteHelper.TB_FEED, "fid=" + fid, null);
+		db.delete(RssRoidSqliteHelper.TB_ITEM, "fid=" + fid, null);
+		return true;
+	}
+	
+	
+	public void updateTimestamp(long fid, long lastBuildDate, long lastItemDate) {
+		ContentValues values = new ContentValues();
+		if(lastBuildDate > 0) {
+			values.put("last_build_date", lastBuildDate);
+		}
+		if(lastItemDate > 0) {
+			values.put("last_item_date", lastItemDate);
+		}
+		db.update(RssRoidSqliteHelper.TB_FEED, values, "fid=" + fid, null);
+	}
 	
 	public List<Feed> getAllFeeds() {
 		List<Feed> feeds = new ArrayList<Feed>();
@@ -76,7 +99,7 @@ public class FeedDataSource {
 		
 		Cursor cursor = db.query(RssRoidSqliteHelper.TB_ITEM, 
 				new String[]{"id", "title", "author"}, 
-				null, null, null, null, "pub_date DESC");
+				"fid=" + fid, null, null, null, "pub_date DESC");
 		
 		cursor.moveToFirst();
 		

@@ -3,6 +3,8 @@ package me.hujin.rss.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.hujin.rss.util.RssDateTime;
+
 public class RSSFeed {
 	
 	public String title;
@@ -32,8 +34,9 @@ public class RSSFeed {
 		return this;
 	}
 	
-	public int getLastBuildTimestamp() {
-		return 0;
+	public long getLastBuildTimestamp() {
+		System.out.println("lastBuildDate: " + lastBuildDate);
+		return new RssDateTime(lastBuildDate).getTimestamp();
 	}
 	
 	public int count() {
@@ -56,6 +59,10 @@ public class RSSFeed {
 		System.out.println("title: " + title);
 		System.out.println("desc:  " + description);
 		System.out.println("last:  " + lastBuildDate);
+		System.out.println("Total items is: " + items.size());
+		for(int i = 0; i < items.size(); i ++) {
+			System.out.println("item: " + items.get(i).getTitle());
+		}
 	}
 	
 	/**

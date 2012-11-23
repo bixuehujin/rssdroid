@@ -36,11 +36,12 @@ public class RssRoidSqliteHelper extends SQLiteOpenHelper{
 		String sql_item = "create table "
 				+ TB_ITEM + "("
 				+ "id integer primary key autoincrement, "
+				+ "fid integer, "
 				+ "title text not null, "
 				+ "description text not null, "
 				+ "content text not null, "
 				+ "author text not null, "
-				+ "pub_date integer"
+				+ "pub_date integer, "
 				+ "link text not null);";
 		db.execSQL(sql_item);
 	}

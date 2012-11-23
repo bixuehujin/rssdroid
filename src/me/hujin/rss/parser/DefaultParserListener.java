@@ -16,7 +16,7 @@ public class DefaultParserListener implements IParserListener{
 	
 	public boolean onItemReceive(RSSItem item) {
 		
-		return true;
+		return false;
 	}
 
 	public boolean onMetaReceive(RSSFeed feed) {

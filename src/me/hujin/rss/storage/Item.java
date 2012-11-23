@@ -1,7 +1,10 @@
 package me.hujin.rss.storage;
 
-public class Item {
+import java.io.Serializable;
 
+public class Item implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private long fid;
 	private String title;
@@ -72,5 +75,13 @@ public class Item {
 	
 	public void setLink(String link) {
 		this.link = link;
+	}
+	
+	public String getContentExt() {
+		if(content != null && !content.equals("")) {
+			return content;
+		}else {
+			return description;
+		}
 	}
 }

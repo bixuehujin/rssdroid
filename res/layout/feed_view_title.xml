@@ -11,18 +11,17 @@
     
 
     <TextView
-        	android:id="@+id/feed_list_title"
+        	android:id="@+id/feed_view_title"
 	        android:layout_width="0dp"
 	        android:layout_height="match_parent"
 	        android:layout_weight="1"
-	        android:text="@string/add_feed_title"
 	        android:textSize="25dp" />
 	 
      <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_title_refresh"
-        android:onClick="refreshFeedList"/>
+        android:src="@drawable/ic_title_feed_item_info"
+        android:onClick="showFeedItemInfo"/>
     
     
 </LinearLayout>

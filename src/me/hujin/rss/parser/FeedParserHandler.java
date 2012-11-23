@@ -10,15 +10,19 @@ public class FeedParserHandler extends DefaultHandler {
 	public RSSFeed feed;
 	
 	private String tagName;
+	
 	private boolean isItem = false;
 	
 	private RSSItem item;
 	
 	private IParserListener listener;
 	
-	public FeedParserHandler(IParserListener listener) {
+	private FeedParser parser;
+	
+	public FeedParserHandler(FeedParser context, IParserListener listener) {
 		this.listener = listener;
 		feed = new RSSFeed();
+		this.parser = context;
 	}
 	
 	public RSSFeed getFeed() {
@@ -33,7 +37,9 @@ public class FeedParserHandler extends DefaultHandler {
 			String qName, Attributes attrs) {
 		if(qName.equals("item")) {
 			if(!isItem) {
-				listener.onMetaReceive(feed);
+				if(listener.onMetaReceive(feed)) {
+					parser.stop();
+				}
 			}
 			isItem = true;
 			item = new RSSItem();
@@ -45,13 +51,15 @@ public class FeedParserHandler extends DefaultHandler {
 		
 		if(qName.equals("item")) {
 			feed.addItem(item);
-			listener.onItemReceive(item);
+			if(listener.onItemReceive(item)) {
+				parser.stop();
+			}
 		}
 		tagName = null;
 	}
 	
 	public void endDocument() throws SAXException {
-		
+		listener.onEnd(feed);
 	}
 	
 	public void characters(char[] ch, int start, int len) throws SAXException{
@@ -68,7 +76,7 @@ public class FeedParserHandler extends DefaultHandler {
 			}
 		}else if(tagName.equals("description")) {
 			if(isItem) {
-				item.setDescription(str);
+				item.appendDescription(str);
 			}else {
 				feed.setDescription(str);
 			}

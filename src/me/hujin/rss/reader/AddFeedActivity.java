@@ -3,6 +3,9 @@ package me.hujin.rss.reader;
 import me.hujin.rss.parser.FeedParser;
 import me.hujin.rss.parser.RSSFeed;
 import me.hujin.rss.reader.R;
+import me.hujin.rss.storage.Feed;
+import me.hujin.rss.storage.FeedDataSource;
+import me.hujin.rss.storage.ItemDataSource;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,13 +18,17 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AddFeedActivity extends Activity {
 
 	public EditText feedName;
+	
 	public EditText feedUrl;
+	
 	public Button addFeedButton;
-	public AddFeedActivity self;
+	
+	public AddFeedActivity activity;
 	/**
 	 * Dialog object for show progress bar.
 	 */
@@ -37,9 +44,13 @@ public class AddFeedActivity extends Activity {
 	 */
 	private Handler handler;
 	
+	private FeedDataSource feedDataSource;
+	
+	private ItemDataSource itemDataSource;
+	
 	
 	public AddFeedActivity() {
-		this.self = this;
+		this.activity = this;
 	}
 	
     @Override
@@ -54,6 +65,8 @@ public class AddFeedActivity extends Activity {
         
         addFeedButton.setOnClickListener(new OnAddFeedButtonClickListener());
         
+        feedDataSource = new FeedDataSource(this);
+        itemDataSource = new ItemDataSource(this);
         
         createProgressDialog();
     }
@@ -139,8 +152,39 @@ public class AddFeedActivity extends Activity {
 			super.run();
 			
 			parser = new FeedParser();
-			parser.load("http://www.zhihu.com/rss");
-			parser.getFeed().printFeed();
+			parser.load(feedUrl.getText().toString());
+			
+			RSSFeed feed = parser.getFeed();
+			if(feed.valid()) {
+				if(!feedName.getText().toString().trim().equals("")) {
+					feed.setTitle(feedName.getText().toString().trim());
+				}
+				feedDataSource.open();
+				Feed newFeed = feedDataSource.addFeed(feed);
+				
+				
+				itemDataSource.open();
+				itemDataSource.saveAll(feed, newFeed.getFid());
+				
+				feedDataSource.updateTimestamp(newFeed.getFid(), 0, feed.getItems().get(0).getTimestamp());
+				
+				itemDataSource.close();
+				feedDataSource.close();
+				activity.runOnUiThread(new Runnable() {
+					
+					public void run() {
+						Toast.makeText(activity, "Add Feed Success", Toast.LENGTH_SHORT).show();
+					}
+				});
+				activity.finish();
+			}else {
+				activity.runOnUiThread(new Runnable() {
+					
+					public void run() {
+						Toast.makeText(activity, "Add Feed Failed", Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
 			
 			dialog.cancel(); //close when operation completed.
 		}

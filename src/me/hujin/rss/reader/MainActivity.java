@@ -4,20 +4,31 @@ import java.util.List;
 
 import me.hujin.rss.storage.Feed;
 import me.hujin.rss.storage.FeedDataSource;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends ListActivity {
 
 	public final static String FEED_INFO = "feed_info";
 	
 	private FeedDataSource dataSource;
+	
 	private FeedListViewAdapter listAdapter;
+	
+	private MainActivity activity = this;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,10 @@ public class MainActivity extends ListActivity {
         listAdapter = new FeedListViewAdapter(this, R.layout.feed_list_item, values);
         System.out.println("start");
         setListAdapter(listAdapter);
+        
+        dataSource.close();
+        
+        getListView().setOnItemLongClickListener(new OnListItemLongClickListener());
     }
 
     @Override
@@ -54,6 +69,7 @@ public class MainActivity extends ListActivity {
     	startActivity(intent);
     }
     
+    
     /**
      * start AddFeedActivity 
      * @param view
@@ -70,4 +86,77 @@ public class MainActivity extends ListActivity {
 		super.onPostResume();
 		System.out.println("post resume");
 	}
+	
+	private class OnListItemLongClickListener implements OnItemLongClickListener{
+
+		Dialog dialog;
+		
+		Feed deletingFeed;
+		
+		public boolean onItemLongClick(AdapterView parent, View view,
+				int position, long id) {
+
+			dialog = new Dialog(activity);
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(R.layout.dialog_feed_operation);
+			
+			deletingFeed = listAdapter.getItem(position);
+			
+			ListView listView = (ListView) dialog.findViewById(R.id.list_feed_operations);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, 
+					android.R.layout.simple_list_item_1, 
+					new String[]{"Delete", "Show Info"});
+			
+			listView.setAdapter(adapter);
+			listView.setOnItemClickListener(new OnFeedOperationListItemClickListener());
+			dialog.show();
+			
+			return true;
+		}
+		
+		private class OnFeedOperationListItemClickListener implements OnItemClickListener {
+
+			public void onItemClick(AdapterView parent, View view, int position,
+					long id) {
+				switch (position) {
+				case 0:
+					AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+					builder.setTitle("Are you sure to delete the feed?")
+						.setPositiveButton("Confirm", new OnDialogButtonClickListener())
+						.setNegativeButton("Cancel", new OnDialogButtonClickListener())
+						.setMessage("This will delete all items belongs to the feed.");
+					
+					AlertDialog alert = builder.create();
+					alert.show();
+					break;
+
+				default:
+					break;
+				}
+				dialog.cancel();
+			}
+			
+		}
+		
+		private class OnDialogButtonClickListener implements DialogInterface.OnClickListener {
+
+			public void onClick(DialogInterface dialog, int which) {
+
+				if(which == AlertDialog.BUTTON_POSITIVE) {
+					dataSource.open();
+					if(dataSource.delete(deletingFeed.getFid())) {
+						Toast.makeText(activity, "Delete Feed Success", Toast.LENGTH_SHORT).show();
+						listAdapter.remove(deletingFeed);
+						listAdapter.notifyDataSetChanged();
+					}else {
+						Toast.makeText(activity, "Delete Feed Failed", Toast.LENGTH_SHORT).show();
+					}
+					dataSource.close();
+				}
+				
+			}
+			
+		}
+	}
+
 }
