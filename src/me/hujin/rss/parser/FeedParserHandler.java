@@ -94,6 +94,10 @@ public class FeedParserHandler extends DefaultHandler {
 			}
 		}else if(tagName.equals("creator")) {
 			item.setCreator(str);
+		}else if(tagName.equals("content:encoded")) {
+			if(isItem) {
+				item.appendContent(str);
+			}
 		}
-	}
+ 	}
 }

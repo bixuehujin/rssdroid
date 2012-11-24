@@ -43,8 +43,10 @@ public class FeedViewActivity extends Activity {
     	Item item = dataSource.getItem(currentItem.getId());
     	webView = (WebView) findViewById(R.id.feed_view);
     	webView.getSettings().setDefaultTextEncodingName("UTF-8");
-    	
-    	webView.loadData(item.getContentExt(), "text/html; charset=UTF-8", "UTF-8");
+
+    	webView.loadDataWithBaseURL(null, 
+    			"<html><body>" + item.getContentExt() + "</body></html>", 
+    			"text/html", "utf-8", null);
     }
     
     

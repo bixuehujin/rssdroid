@@ -33,12 +33,12 @@ public class ItemDataSource extends DataSourceBase{
 			RSSItem rssItem = rssItems.get(i);
 			ContentValues values = new ContentValues();
 			values.put("title", rssItem.getTitle());
-			values.put("description", rssItem.getDescription());
 			values.put("author", rssItem.getCreator());
 			values.put("pub_date", rssItem.getTimestamp());
 			values.put("link", rssItem.getLink());
-			values.put("content", "");
 			values.put("fid", fid);
+			values.put("content", rssItem.getContent());
+			values.put("description", rssItem.getDescription());
 			
 			
 			long id = db.insert("item", null, values);
