@@ -89,7 +89,9 @@ public class FeedParserHandler extends DefaultHandler {
 		}else if(tagName.equals("lastBuildDate")) {
 			feed.setLastBuildDate(str);
 		}else if(tagName.equals("pubDate")) {
-			item.setPubDate(str);
+			if(isItem) {
+				item.setPubDate(str);
+			}
 		}else if(tagName.equals("creator")) {
 			item.setCreator(str);
 		}

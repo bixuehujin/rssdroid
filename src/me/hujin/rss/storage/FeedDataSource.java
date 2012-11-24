@@ -29,6 +29,7 @@ public class FeedDataSource extends DataSourceBase{
 		newFeed.setTitle(rssFeed.title);
 		newFeed.setDescription(rssFeed.description);
 		newFeed.setLastBuildDate(rssFeed.getLastBuildTimestamp());
+		newFeed.setLink(rssFeed.link);
 		
 		return newFeed;
 	}
@@ -74,7 +75,7 @@ public class FeedDataSource extends DataSourceBase{
 		List<Feed> feeds = new ArrayList<Feed>();
 		Cursor cursor = db.query(
 				RssRoidSqliteHelper.TB_FEED, 
-				new String[]{"fid", "title", "description", "link"}, 
+				new String[]{"fid", "title", "description", "link", "last_build_date", "last_item_date"}, 
 				null, null, null, null, null, null);
 		
 		cursor.moveToFirst();
@@ -100,6 +101,9 @@ public class FeedDataSource extends DataSourceBase{
 		feed.setTitle(cursor.getString(1));
 		feed.setDescription(cursor.getString(2));
 		feed.setLink(cursor.getString(3));
+		feed.setLastBuildDate(cursor.getLong(4));
+		feed.setLastItemDate(cursor.getLong(5));
+		
 		return feed;
 	}
 	

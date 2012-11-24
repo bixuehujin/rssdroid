@@ -1,6 +1,9 @@
 package me.hujin.rss.parser;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.ListIterator;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -11,6 +14,8 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
+import android.util.Log;
 
 
 public class FeedParser {
@@ -23,6 +28,9 @@ public class FeedParser {
 	
 	private ClientConnectionManager connManager;
 	
+	private long lastBuildDate = 0;
+	
+	private long lastItemDate = 0;
 	
 	public void init() {
 		if(parser != null) {
@@ -30,11 +38,20 @@ public class FeedParser {
 		}
 		
 		if(listener == null) {
-			listener = new DefaultParserListener();
+			listener = new ParserListener(lastBuildDate, lastItemDate);
 		}
 		handler = new FeedParserHandler(this, listener);
 	}
 	
+	public FeedParser setLastBuildDate(long lastBuildDate) {
+		this.lastBuildDate = lastBuildDate;
+		return this;
+	}
+	
+	public FeedParser setLastItemDate(long lastItemDate) {
+		this.lastItemDate = lastItemDate;
+		return this;
+	}
 	
 	public void load(String url) {
 		init();
@@ -58,19 +75,40 @@ public class FeedParser {
 			
 			xmlreader.parse(is);
 			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		processFeed();
 	}
 	
 	/**
-	 * set a custom parser listener.
-	 * 
-	 * @param listener a listener implement IParserListener Interface.
+	 * remove some old feed.
 	 */
-	public void setParserListener(IParserListener listener) {
-		this.listener = listener;
+	protected void processFeed() {
+		RSSFeed rssFeed = handler.getFeed();
+		System.out.println("process feed");
+		if(!rssFeed.valid()) return;
+		System.out.println("lastBuildDate: " + lastBuildDate);
+		System.out.println("lastItemDate: " + lastItemDate);
+		if(lastBuildDate <= 0) return;
+		
+		if(rssFeed.getLastBuildTimestamp() <= lastBuildDate) {
+			rssFeed.removeAll();
+			System.out.println("remove all");
+		}else {
+			
+			List<RSSItem> items = rssFeed.getItems();
+			
+			ListIterator<RSSItem> iter = items.listIterator();
+			while(iter.hasNext()) {
+				RSSItem item = iter.next();
+				if(item.getTimestamp() <= lastItemDate) {
+					iter.remove();
+				}
+			}
+		}
+			
 	}
 	
 	/**
@@ -85,5 +123,36 @@ public class FeedParser {
 	 */
 	public RSSFeed getFeed() {
 		return handler.getFeed();
+	}
+	
+	
+	private class ParserListener implements IParserListener {
+
+		private long lastItemTimestamp;
+		
+		private long lastBuildTimestamp;
+		
+		public ParserListener(long lastBuildTimestamp, long lastItemTimestamp) {
+			this.lastItemTimestamp = lastItemTimestamp;
+			this.lastBuildTimestamp = lastBuildTimestamp;
+		}
+		
+		public boolean onMetaReceive(RSSFeed feed) {
+			if(feed.getLastBuildTimestamp() <= lastBuildTimestamp) {
+				return true;
+			}
+			return false;
+		}
+
+		public boolean onItemReceive(RSSItem item) {
+			if(item.getTimestamp() <= lastItemTimestamp) {
+				return true;
+			}
+			return false;
+		}
+
+		public void onEnd(RSSFeed feed) {
+			
+		}
 	}
 }

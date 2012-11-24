@@ -170,6 +170,9 @@ public class AddFeedActivity extends Activity {
 				if(!feedName.getText().toString().trim().equals("")) {
 					feed.setTitle(feedName.getText().toString().trim());
 				}
+				
+				feed.setLink(feedUrl.getText().toString().trim());
+				
 				feedDataSource.open();
 				Feed newFeed = feedDataSource.addFeed(feed);
 				
@@ -177,7 +180,9 @@ public class AddFeedActivity extends Activity {
 				itemDataSource.open();
 				itemDataSource.saveAll(feed, newFeed.getFid());
 				
-				feedDataSource.updateTimestamp(newFeed.getFid(), 0, feed.getItems().get(0).getTimestamp());
+				feedDataSource.updateTimestamp(newFeed.getFid(), feed.getLastBuildTimestamp(), feed.caculateLastItemTimestamp());
+				newFeed.setLastBuildDate(feed.getLastBuildTimestamp());
+				newFeed.setLastItemDate(feed.caculateLastItemTimestamp());
 				
 				itemDataSource.close();
 				feedDataSource.close();

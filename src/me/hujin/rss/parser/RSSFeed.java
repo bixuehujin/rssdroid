@@ -62,6 +62,7 @@ public class RSSFeed {
 		System.out.println("Total items is: " + items.size());
 		for(int i = 0; i < items.size(); i ++) {
 			System.out.println("item: " + items.get(i).getTitle());
+			System.out.println("pubDate: " + items.get(i).getTimestamp());
 		}
 	}
 	
@@ -71,10 +72,28 @@ public class RSSFeed {
 	 * @return
 	 */
 	public boolean valid() {
-		if(title != null && description != null && lastBuildDate != null && link != null) {
+		if(title != null && description != null && lastBuildDate != null) {
 			return true;
 		}else {
 			return false;
 		}
+	}
+	
+	/**
+	 * remove all items belongs to the feed.
+	 */
+	public void removeAll() {
+		items.clear();
+	}
+	
+	public long caculateLastItemTimestamp() {
+		long ret = 0, t;
+		for(RSSItem item: items) {
+			t = item.getTimestamp();
+			if(t > ret) {
+				ret = t;
+			}
+		}
+		return ret;
 	}
 }

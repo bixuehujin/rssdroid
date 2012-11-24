@@ -1,11 +1,10 @@
 package me.hujin.rss.reader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.hujin.rss.parser.FeedParser;
-import me.hujin.rss.parser.ParserListener;
 import me.hujin.rss.parser.RSSFeed;
-import me.hujin.rss.parser.RSSItem;
 import me.hujin.rss.storage.Feed;
 import me.hujin.rss.storage.FeedDataSource;
 import me.hujin.rss.storage.Item;
@@ -14,7 +13,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -32,7 +31,7 @@ public class FeedListActivity extends ListActivity {
 	private Feed currentFeed;
 	private Dialog dialog;
 	private Thread thread;
-	private FeedListActivity activity;
+	private FeedListActivity activity = this;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class FeedListActivity extends ListActivity {
     protected void init() {
     	dataSource = new FeedDataSource(this);
     	itemDataSource = new ItemDataSource(this);
-    	activity = this;
     }
     
     public void showItemList() {
@@ -109,40 +107,76 @@ public class FeedListActivity extends ListActivity {
 			
 			super.run();
 			FeedParser parser = new FeedParser();
-			parser.setParserListener(new ParserListener(currentFeed.getLastBuildDate(), currentFeed.getLastItemDate()));
-			System.out.println(currentFeed.getLink());
+			parser.setLastBuildDate(currentFeed.getLastBuildDate())
+				.setLastItemDate(currentFeed.getLastItemDate());
+			
+			Log.d(FeedListActivity.class.toString(), 
+					"Load data from internet. lastBuildDate: " 
+					+ currentFeed.getLastBuildDate() + " lastItemDate: " 
+					+ currentFeed.getLastItemDate());
+			
 			parser.load(currentFeed.getLink());
 			parser.getFeed().printFeed();
 			
 			RSSFeed feed = parser.getFeed();
+			
+			List<Item> newItems = new ArrayList<Item>();
 			if(feed.valid()) {
 				if(feed.count() > 0) {
 					itemDataSource.open();
-					itemDataSource.saveAll(feed, currentFeed.getFid());
+					newItems = itemDataSource.saveAll(feed, currentFeed.getFid());
 					itemDataSource.close();
 					
 					dataSource.open();
 					dataSource.updateTimestamp(
 							currentFeed.getFid(), 
 							feed.getLastBuildTimestamp(), 
-							feed.getItems().get(0).getTimestamp());
+							feed.caculateLastItemTimestamp());
 					dataSource.close();
 				}
 				
-				activity.runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(activity, "Refresh Success", Toast.LENGTH_SHORT).show();
-					}
-				});
+				if(feed.count() > 0) {
+					activity.runOnUiThread(new AddNewItemsThread(newItems));
+					activity.runOnUiThread(new TaostMessageThread(feed.count() + " items updated"));
+				}else {
+					activity.runOnUiThread(new TaostMessageThread("No Updated Avaliable"));
+				}
 				
 			}else {
-				activity.runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(activity, "Error Occured", Toast.LENGTH_SHORT).show();
-					}
-				});
+				activity.runOnUiThread(new TaostMessageThread("Refresh Failed"));
 			}
 			dialog.cancel();
+		}
+		
+	}
+	
+	private class TaostMessageThread implements Runnable {
+		
+		private String message;
+		
+		public TaostMessageThread(String message) {
+			this.message = message;
+		}
+		
+		public void run() {
+			Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	
+	private class AddNewItemsThread implements Runnable {
+		
+		private List<Item> newItems;
+		
+		public AddNewItemsThread(List<Item> newItems) {
+			this.newItems = newItems;
+		}
+		
+		public void run() {
+			for(int i = newItems.size() - 1; i >= 0 ; i --) {
+				listAdapter.insert(newItems.get(i), 0);
+			}
+			listAdapter.notifyDataSetChanged();
 		}
 		
 	}
