@@ -1,0 +1,50 @@
+<resources>
+
+    <string name="app_name">RSS阅读器</string>
+    <string name="add_feed_title">添加RSS源</string>
+    <string name="feed_name">名称</string>
+    <string name="feed_name_hit">请输入RSS源名称，可为空</string>
+    <string name="feed_url">源URL</string>
+    <string name="feed_url_hit">请输入RSS源的URL地址</string>
+    <string name="add_feed_btn">添加源</string>
+    <string name="add_feed_progress_label">加载中 ...</string>
+    <string name="menu_settings">设置</string>
+
+    <string name="menu_exit">退出</string>
+    <string name="menu_add_feed">添加源</string>
+    
+    <string name="feed_operation_delete">删除该RSS</string>
+    <string name="feed_operation_rename">重命名</string>
+    <string name="feed_operation_show_info">查看信息</string>
+    
+    <string name="title_activity_feed_list">title_activity_feed_list</string>
+    <string name="title_activity_feed_view">title_activity_feed_view</string>
+    <string name="title_activity_feed_info">title_activity_feed_info</string>
+        
+    <string name="btn_confirm">确定</string>
+    <string name="btn_cancel">取消</string>
+    
+    <string name="dialog_delete_feed_title">确认删除该RSS源？</string>
+    <string name="dialog_delete_feed_description">此操作将删除该源及该源所有数据。</string>
+    
+    <string name="dialog_rename_feed_title">重命名源</string>
+    
+    <string name="toast_delete_feed_success">删除RSS源成功</string>
+    <string name="toast_delete_feed_faild">删除RSS源失败</string>
+    
+    <string name="toast_no_update_avaliable">无可用更新</string>
+    <string name="toast_n_items_updated">个更新</string>
+    <string name="toast_refresh_failed">更新失败</string>
+    
+    <string name="toast_add_feed_success">添加RSS源成功</string>
+    <string name="toast_add_feed_failed">添加RSS源失败</string>
+    
+    <string name="toast_network_error">网络错误</string>
+    
+        
+    <!-- Rename Feed Dialog -->
+    <string name="toast_name_can_not_blank">名称不能为空</string>
+    <string name="toast_rename_feed_success">重命名成功</string>
+    <string name="toast_rename_feed_failed">重命名失败</string>
+    
+</resources>

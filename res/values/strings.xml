@@ -8,18 +8,44 @@
     <string name="feed_url_hit">Input the url of your feed</string>
     <string name="add_feed_btn">Add Feed</string>
     <string name="add_feed_progress_label">Loading ...</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">RssDroid</string>
-    <string name="search_tip_message">Input keywords to search</string>
-    <string name="search_button_label">Search</string>
-    <string name="title_activity_search_result">SearchResultActivity</string>
-    <string name="title_activity_add_feed">AddFeedActivity</string>
-    <string name="title_activity_feed_list">FeedListActivity</string>
-    <string name="title_activity_feed_view">FeedViewActivity</string>
-    <string name="title_activity_feed_info">FeedInfoActivity</string>
 
     <string name="menu_exit">Exit</string>
     <string name="menu_add_feed">Add Feed</string>
+    
+    <string name="feed_operation_delete">Delete Feed</string>
+    <string name="feed_operation_rename">Rename Feed</string>
+    <string name="feed_operation_show_info">Show Feed Info</string>
+    
+    <string name="title_activity_feed_list">title_activity_feed_list</string>
+    <string name="title_activity_feed_view">title_activity_feed_view</string>
+    <string name="title_activity_feed_info">title_activity_feed_info</string>
+    
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_cancel">Cancel</string>
+    
+    <string name="dialog_delete_feed_title">Are you sure to delete the feed?</string>
+    <string name="dialog_delete_feed_description">This will delete all items belongs to the feed.</string>
+    
+    <string name="dialog_rename_feed_title">Rename Feed</string>
+    
+    <string name="toast_delete_feed_success">Delete Feed Success</string>
+    <string name="toast_delete_feed_faild">Delete Feed Failed</string>
+    
+    <string name="toast_no_update_avaliable">No Update Avaliable</string>
+    <string name="toast_n_items_updated">items updated</string>
+    <string name="toast_refresh_failed">Fefresh Failed</string>
+    
+    <string name="toast_add_feed_success">Add Feed Success</string>
+    <string name="toast_add_feed_failed">Add Feed Failed</string>
+    <string name="toast_network_error">Network Error</string>
+    
+    <!-- Rename Feed Dialog -->
+    <string name="toast_name_can_not_blank">Name Can Not Be Blank</string>
+    <string name="toast_rename_feed_success">Rename Feed Success</string>
+    <string name="toast_rename_feed_failed">Rename Feed Failed</string>
+    
+    
     
 </resources>

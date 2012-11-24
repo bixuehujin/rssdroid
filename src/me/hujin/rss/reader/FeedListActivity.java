@@ -137,13 +137,13 @@ public class FeedListActivity extends ListActivity {
 				
 				if(feed.count() > 0) {
 					activity.runOnUiThread(new AddNewItemsThread(newItems));
-					activity.runOnUiThread(new TaostMessageThread(feed.count() + " items updated"));
+					activity.runOnUiThread(new TaostMessageThread(feed.count() + getString(R.string.toast_n_items_updated)));
 				}else {
-					activity.runOnUiThread(new TaostMessageThread("No Updated Avaliable"));
+					activity.runOnUiThread(new TaostMessageThread(getString(R.string.toast_no_update_avaliable)));
 				}
 				
 			}else {
-				activity.runOnUiThread(new TaostMessageThread("Refresh Failed"));
+				activity.runOnUiThread(new TaostMessageThread(getString(R.string.toast_refresh_failed)));
 			}
 			dialog.cancel();
 		}

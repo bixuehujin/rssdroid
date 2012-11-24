@@ -24,19 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchResultActivity"
-            android:label="@string/title_activity_search_result" >
-        </activity>
-        <activity
-            android:name=".AddFeedActivity"
-            android:label="@string/title_activity_add_feed" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".FeedListActivity"
             android:label="@string/title_activity_feed_list" >
         </activity>
@@ -46,6 +33,10 @@
         </activity>
         <activity
             android:name=".FeedInfoActivity"
+            android:label="@string/title_activity_feed_info" >
+        </activity>
+        <activity
+            android:name=".AddFeedActivity"
             android:label="@string/title_activity_feed_info" >
         </activity>
     </application>

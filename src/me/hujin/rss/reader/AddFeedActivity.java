@@ -189,7 +189,7 @@ public class AddFeedActivity extends Activity {
 				activity.runOnUiThread(new Runnable() {
 					
 					public void run() {
-						Toast.makeText(activity, "Add Feed Success", Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, getString(R.string.toast_add_feed_success), Toast.LENGTH_SHORT).show();
 					}
 				});
 				
@@ -204,7 +204,7 @@ public class AddFeedActivity extends Activity {
 				activity.runOnUiThread(new Runnable() {
 					
 					public void run() {
-						Toast.makeText(activity, "Add Feed Failed", Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, getString(R.string.toast_add_feed_failed), Toast.LENGTH_SHORT).show();
 					}
 				});
 			}

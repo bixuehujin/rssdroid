@@ -150,7 +150,9 @@ public class MainActivity extends ListActivity {
 			ListView listView = (ListView) dialog.findViewById(R.id.list_feed_operations);
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, 
 					android.R.layout.simple_list_item_1, 
-					new String[]{"Delete Feed", "Rename Feed", "Item Info"});
+					new String[]{getString(R.string.feed_operation_delete), 
+						getString(R.string.feed_operation_rename), 
+						getString(R.string.feed_operation_show_info)});
 			
 			listView.setAdapter(adapter);
 			listView.setOnItemClickListener(new OnFeedOperationListItemClickListener());
@@ -167,10 +169,10 @@ public class MainActivity extends ListActivity {
 				//delete feed
 				case 0:
 					AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-					builder.setTitle("Are you sure to delete the feed?")
-						.setPositiveButton("Confirm", new OnDialogButtonClickListener(OnDialogButtonClickListener.ACTION_DELETE))
-						.setNegativeButton("Cancel", new OnDialogButtonClickListener())
-						.setMessage("This will delete all items belongs to the feed.");
+					builder.setTitle(getString(R.string.dialog_delete_feed_title))
+						.setPositiveButton(getString(R.string.btn_confirm), new OnDialogButtonClickListener(OnDialogButtonClickListener.ACTION_DELETE))
+						.setNegativeButton(getString(R.string.btn_cancel), new OnDialogButtonClickListener())
+						.setMessage(getString(R.string.dialog_delete_feed_description));
 					
 					AlertDialog alert = builder.create();
 					alert.show();
@@ -188,9 +190,9 @@ public class MainActivity extends ListActivity {
 					
 					
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
-					builder1.setTitle("Rename Feed")
-						.setPositiveButton("Confirm", new OnDialogButtonClickListener(OnDialogButtonClickListener.ACTION_RENAME))
-						.setNegativeButton("Cancel", new OnDialogButtonClickListener())
+					builder1.setTitle(getString(R.string.dialog_rename_feed_title))
+						.setPositiveButton(getString(R.string.btn_confirm), new OnDialogButtonClickListener(OnDialogButtonClickListener.ACTION_RENAME))
+						.setNegativeButton(getString(R.string.btn_cancel), new OnDialogButtonClickListener())
 						.setView(renameEditText);
 					AlertDialog alert1 = builder1.create();
 					alert1.show();
@@ -241,11 +243,11 @@ public class MainActivity extends ListActivity {
 			private void doActionDelete() {
 				dataSource.open();
 				if(dataSource.delete(operatingFeed.getFid())) {
-					Toast.makeText(activity, "Delete Feed Success", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, getString(R.string.toast_delete_feed_success), Toast.LENGTH_SHORT).show();
 					listAdapter.remove(operatingFeed);
 					listAdapter.notifyDataSetChanged();
 				}else {
-					Toast.makeText(activity, "Delete Feed Failed", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, getString(R.string.toast_delete_feed_faild), Toast.LENGTH_SHORT).show();
 				}
 				dataSource.close();
 			}
@@ -253,16 +255,16 @@ public class MainActivity extends ListActivity {
 			private void doActionRename() {
 				String newName = renameEditText.getText().toString().trim();
 				if(newName.equals("")) {
-					Toast.makeText(activity, "Name Cannot be Blank", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, getString(R.string.toast_name_can_not_blank), Toast.LENGTH_SHORT).show();
 					return;
 				}
 				dataSource.open();
 				if(dataSource.rename(operatingFeed.getFid(), newName)) {
-					Toast.makeText(activity, "Rename Feed Success", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, getString(R.string.toast_rename_feed_success), Toast.LENGTH_SHORT).show();
 					operatingFeed.setTitle(newName);
 					listAdapter.notifyDataSetChanged();
 				}else {
-					Toast.makeText(activity, "Rename Feed Failed", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, getString(R.string.toast_rename_feed_failed), Toast.LENGTH_SHORT).show();
 				}
 				
 				dataSource.close();
