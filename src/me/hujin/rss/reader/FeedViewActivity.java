@@ -63,4 +63,8 @@ public class FeedViewActivity extends Activity {
     public void showFeedItemInfo(View view) {
     	
     }
+    
+    public void backToHome(View view) {
+    	finish();
+    }
 }

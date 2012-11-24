@@ -3,26 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#bbb"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
     android:orientation="horizontal" >
     
+    <ImageButton
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:background="@drawable/selector_with_transparency"
+	    android:src="@drawable/ic_title_home"
+	    android:padding="7dp"
+	    android:onClick="backToHome"/>
 
     <TextView
-        	android:id="@+id/feed_list_title"
+        	android:id="@+id/feed_view_title"
 	        android:layout_width="0dp"
 	        android:layout_height="match_parent"
 	        android:layout_weight="1"
-	        android:text="@string/add_feed_title"
+	        android:padding="5dp"
 	        android:textSize="25dp" />
-	 
+	 <!-- 
      <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_title_refresh"
-        android:onClick="refreshFeedList"/>
-    
-    
+        android:src="@drawable/ic_title_feed_item_info"
+        android:onClick="showFeedItemInfo"/>
+     -->
 </LinearLayout>

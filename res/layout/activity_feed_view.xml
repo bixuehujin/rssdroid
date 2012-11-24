@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/feed_view_title"/>
+    <include layout="@layout/title_feed_view"/>
     
     <WebView 
         android:id="@+id/feed_view"

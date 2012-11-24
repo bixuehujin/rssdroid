@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#bbb"
+    android:orientation="horizontal" >
+    
+    <ImageButton
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:background="@drawable/selector_with_transparency"
+	    android:src="@drawable/ic_title_home"
+	    android:padding="7dp"
+	    android:onClick="backToHome"/>
+
+    <TextView
+        	android:id="@+id/feed_list_title"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:padding="5dp"
+	        android:text="@string/add_feed_title"
+	        android:textSize="25dp" />
+    
+	<ImageButton
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:background="@drawable/selector_with_transparency"
+	    android:src="@drawable/ic_title_refresh"
+	    android:padding="7dp"
+	    android:onClick="refreshFeedList"/> 
+    
+     
+    
+</LinearLayout>

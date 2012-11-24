@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/feed_list_title"/>
+    <include layout="@layout/title_feed_list"/>
     
     <ListView 
         android:id="@android:id/list"

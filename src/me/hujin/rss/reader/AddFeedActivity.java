@@ -99,6 +99,14 @@ public class AddFeedActivity extends Activity {
     }
     
     /**
+     * back to home button pressed. 
+     * @param view
+     */
+    public void backToHome(View view) {
+    	finish();
+    }
+    
+    /**
      * Listener for Add Feed button onClick event.
      */
     private class OnAddFeedButtonClickListener implements OnClickListener{

@@ -99,6 +99,10 @@ public class FeedListActivity extends ListActivity {
 		dialog.show();
 	}
 	
+	public void backToHome(View view) {
+		finish();
+	}
+	
 	private class RefreshFeedThread extends Thread {
 		
 		public void run() {
