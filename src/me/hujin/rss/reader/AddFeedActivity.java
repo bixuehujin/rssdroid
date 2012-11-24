@@ -9,6 +9,7 @@ import me.hujin.rss.storage.ItemDataSource;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 public class AddFeedActivity extends Activity {
 
+	public final static int RESULT_CODE = 1;
+	
 	public EditText feedName;
 	
 	public EditText feedUrl;
@@ -184,6 +187,13 @@ public class AddFeedActivity extends Activity {
 						Toast.makeText(activity, "Add Feed Success", Toast.LENGTH_SHORT).show();
 					}
 				});
+				
+				//send data to main activity.
+				Intent i = new Intent();
+				i.putExtra("new_feed", newFeed);
+				setResult(RESULT_CODE, i);
+				
+				
 				activity.finish();
 			}else {
 				activity.runOnUiThread(new Runnable() {

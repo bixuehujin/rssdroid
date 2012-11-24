@@ -44,6 +44,20 @@ public class FeedDataSource extends DataSourceBase{
 		return true;
 	}
 	
+	/**
+	 * rename a feed by fid.
+	 * 
+	 * @param fid
+	 * @param newName
+	 * @return
+	 */
+	public boolean rename(long fid, String newName) {
+		ContentValues values = new ContentValues();
+		values.put("title", newName);
+		db.update(RssRoidSqliteHelper.TB_FEED, values, "fid=" + fid, null);
+		return true;
+	}
+	
 	
 	public void updateTimestamp(long fid, long lastBuildDate, long lastItemDate) {
 		ContentValues values = new ContentValues();
