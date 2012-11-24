@@ -17,5 +17,9 @@
     <string name="title_activity_add_feed">AddFeedActivity</string>
     <string name="title_activity_feed_list">FeedListActivity</string>
     <string name="title_activity_feed_view">FeedViewActivity</string>
+    <string name="title_activity_feed_info">FeedInfoActivity</string>
 
+    <string name="menu_exit">Exit</string>
+    <string name="menu_add_feed">Add Feed</string>
+    
 </resources>

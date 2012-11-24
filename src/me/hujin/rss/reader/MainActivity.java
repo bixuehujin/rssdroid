@@ -1,5 +1,6 @@
 package me.hujin.rss.reader;
 
+import java.util.Currency;
 import java.util.List;
 
 import me.hujin.rss.storage.Feed;
@@ -15,6 +16,7 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -59,9 +61,36 @@ public class MainActivity extends ListActivity {
         getListView().setOnItemLongClickListener(new OnListItemLongClickListener());
     }
 
+    
+    @Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    	
+    	switch (item.getItemId()) {
+		case R.id.menu_add_feed:
+	    	Intent intent = new Intent(MainActivity.this, AddFeedActivity.class);
+	    	startActivityForResult(intent, REQUEST_CODE);
+			break;
+
+		case R.id.menu_exit:
+			finish();
+			break;
+		default:
+			break;
+		}
+    	
+		
+    	return super.onMenuItemSelected(featureId, item);
+	}
+
+
+	public void init() {
+    	
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
+        
         return true;
     }
 
@@ -100,12 +129,6 @@ public class MainActivity extends ListActivity {
 		}
 	}
 
-	@Override
-	protected void onPostResume() {
-		// TODO Auto-generated method stub
-		super.onPostResume();
-		System.out.println("post resume");
-	}
 	
 	private class OnListItemLongClickListener implements OnItemLongClickListener{
 
@@ -171,6 +194,13 @@ public class MainActivity extends ListActivity {
 						.setView(renameEditText);
 					AlertDialog alert1 = builder1.create();
 					alert1.show();
+					break;
+				//show feed info
+				case 2:
+					Intent i = new Intent(MainActivity.this, FeedInfoActivity.class);
+					i.putExtra(MainActivity.FEED_INFO, operatingFeed);
+					startActivity(i);
+					
 					break;
 				default:
 					break;
