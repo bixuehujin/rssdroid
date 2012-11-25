@@ -3,12 +3,11 @@ package me.hujin.rss.reader;
 import me.hujin.rss.storage.Feed;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class FeedInfoActivity extends Activity {
 
@@ -40,11 +39,12 @@ public class FeedInfoActivity extends Activity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_feed_info, menu);
         return true;
     }
     
     public void backToHome(View view) {
-    	finish();
+    	Intent intent = new Intent(FeedInfoActivity.this, MainActivity.class);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	startActivity(intent);
     }
 }

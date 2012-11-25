@@ -3,7 +3,6 @@ package me.hujin.rss.reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.hujin.rss.storage.Feed;
 import me.hujin.rss.storage.Item;
 import android.content.Context;
 import android.view.LayoutInflater;

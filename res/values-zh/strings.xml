@@ -12,6 +12,8 @@
 
     <string name="menu_exit">退出</string>
     <string name="menu_add_feed">添加源</string>
+    <string name="menu_back_home">首页</string>
+    <string name="menu_show_feed_info">RSS信息</string>
     
     <string name="feed_operation_delete">删除该RSS</string>
     <string name="feed_operation_rename">重命名</string>

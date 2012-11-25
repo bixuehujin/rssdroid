@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
@@ -83,6 +84,23 @@ public class FeedListActivity extends ListActivity {
 		startActivity(intent);
 	}
     
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_back_home:
+			finish();
+			break;
+		case R.id.menu_show_feed_info:
+			Intent intent = new Intent(FeedListActivity.this, FeedInfoActivity.class);
+			intent.putExtra(MainActivity.FEED_INFO, currentFeed);
+			startActivity(intent);
+			break;
+		default:
+			break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
+
 	/**
 	 * refresh feed list
 	 * @param view

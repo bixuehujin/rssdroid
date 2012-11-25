@@ -3,6 +3,7 @@ package me.hujin.rss.reader;
 import me.hujin.rss.storage.Feed;
 import me.hujin.rss.storage.Item;
 import me.hujin.rss.storage.ItemDataSource;
+import me.hujin.rss.util.RssDateTime;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,15 +47,28 @@ public class FeedViewActivity extends Activity {
     	webView.getSettings().setDefaultTextEncodingName("UTF-8");
 
     	webView.loadDataWithBaseURL(null, 
-    			"<html><body>" + item.getContentExt() + "</body></html>", 
+    			renderWebViewData(item),
     			"text/html", "utf-8", null);
     	dataSource.close();
     }
     
+    protected String renderWebViewData(Item item) {
+    	StringBuffer buffer = new StringBuffer();
+    	buffer.append("<html><body>");
+    	
+    	String header = "<h3><a href='" + item.getLink() + "'>" + item.getTitle() + "</a></h3>"
+    			+ "<hr>" 
+    			+ "From " + currentFeed.getTitle() 
+    			+ " on " + new RssDateTime(item.getPubDate()).getFormattedDateTime();
+    	
+    	buffer.append("<div style='margin-bottom:5px' class='feed-head'>" + header + "</div>");
+    	buffer.append("<div class='feed-content'>" + item.getContentExt() + "</div>");
+    	buffer.append("</body></html>");
+    	return buffer.toString();
+    }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_feed_view, menu);
         return true;
     }
 

@@ -1,6 +1,5 @@
 package me.hujin.rss.reader;
 
-import java.util.Currency;
 import java.util.List;
 
 import me.hujin.rss.storage.Feed;
@@ -8,11 +7,9 @@ import me.hujin.rss.storage.FeedDataSource;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
 import android.view.Menu;

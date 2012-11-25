@@ -38,7 +38,7 @@ public class FeedListViewAdapter extends ArrayAdapter<Feed> {
 			
 			TextView countView = (TextView)view.findViewById(R.id.feed_item_unread);
 			//TODO change to unread count
-			countView.setText("2");
+			countView.setText("");
 		}
 		
 		return view;

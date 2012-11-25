@@ -13,6 +13,8 @@
 
     <string name="menu_exit">Exit</string>
     <string name="menu_add_feed">Add Feed</string>
+    <string name="menu_back_home">Home</string>
+    <string name="menu_show_feed_info">Feed Info</string>
     
     <string name="feed_operation_delete">Delete Feed</string>
     <string name="feed_operation_rename">Rename Feed</string>

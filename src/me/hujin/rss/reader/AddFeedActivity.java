@@ -12,8 +12,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,14 +37,8 @@ public class AddFeedActivity extends Activity {
 	public Dialog dialog;
 	
 	public FeedParser parser;
-	/**
-	 * thread to fetch rss resources.
-	 */
+
 	private Thread thread;
-	/**
-	 * handler for post/receive messages.
-	 */
-	private Handler handler;
 	
 	private FeedDataSource feedDataSource;
 	
@@ -116,7 +108,7 @@ public class AddFeedActivity extends Activity {
     private class OnAddFeedButtonClickListener implements OnClickListener{
     	
     	public void onClick(View v) {
-    		String name = feedName.getText().toString();
+    		feedName.getText().toString();
             String url = feedUrl.getText().toString().trim();
             
             if(url.equals("")) {
