@@ -12,13 +12,21 @@ import me.hujin.rss.util.RssDateTime;
 public class RSSItem {
 	
 	private String title;
+	
 	private String link;
+	private StringBuffer linkBuffer = new StringBuffer();
+	
 	private String description;
 	private StringBuffer descriptionBuffer = new StringBuffer();
+	
 	private String pubDate;
+	private StringBuffer pubDateBuffer = new StringBuffer();
+	
 	private String creator;
+	
 	private String content;
 	private StringBuffer contentBuffer = new StringBuffer();
+	
 	
 	public RSSItem(String title, String link, 
 			String description, String pubDate, String creator) {
@@ -43,12 +51,19 @@ public class RSSItem {
 	}
 	
 	public String getLink() {
-		return this.link;
+		if(link == null) {
+			link = linkBuffer.toString();
+		}
+		return link;
 	}
 	
 	public RSSItem setLink(String link) {
 		this.link = link;
 		return this;
+	}
+	
+	public void appendLink(String link) {
+		linkBuffer.append(link);
 	}
 
 	public String getDescription() {
@@ -68,6 +83,9 @@ public class RSSItem {
 	}
 
 	public String getPubDate() {
+		if(pubDate == null) {
+			pubDate = pubDateBuffer.toString();
+		}
 		return pubDate;
 	}
 
@@ -76,6 +94,10 @@ public class RSSItem {
 		return this;
 	}
 
+	public void appendPubDate(String pubDate) {
+		pubDateBuffer.append(pubDate);
+	}
+	
 	public String getCreator() {
 		if(creator == null) {
 			return "";

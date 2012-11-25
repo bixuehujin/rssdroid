@@ -110,7 +110,7 @@ public class FeedListActivity extends ListActivity {
 			
 			super.run();
 			
-			FeedParser parser = new FeedParser();
+			FeedParser parser = new FeedParser(activity);
 			parser.setLastBuildDate(currentFeed.getLastBuildDate())
 				.setLastItemDate(currentFeed.getLastItemDate());
 			

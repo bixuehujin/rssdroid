@@ -82,7 +82,7 @@ public class FeedParserHandler extends DefaultHandler {
 			}
 		}else if(tagName.equals("link")) {
 			if(isItem) {
-				item.setLink(str);
+				item.appendLink(str);
 			}else {
 				feed.setLink(str);
 			}
@@ -90,7 +90,7 @@ public class FeedParserHandler extends DefaultHandler {
 			feed.setLastBuildDate(str);
 		}else if(tagName.equals("pubDate")) {
 			if(isItem) {
-				item.setPubDate(str);
+				item.appendPubDate(str);
 			}
 		}else if(tagName.equals("creator")) {
 			item.setCreator(str);

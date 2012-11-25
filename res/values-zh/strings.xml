@@ -47,4 +47,5 @@
     <string name="toast_rename_feed_success">重命名成功</string>
     <string name="toast_rename_feed_failed">重命名失败</string>
     
+    <string name="toast_feed_exist">已订阅该RSS</string>
 </resources>

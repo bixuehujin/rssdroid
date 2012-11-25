@@ -7,6 +7,10 @@ import java.util.ListIterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import me.hujin.rss.storage.FeedDataSource;
+import me.hujin.rss.storage.ItemDataSource;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -15,6 +19,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import android.content.Context;
 import android.util.Log;
 
 
@@ -31,6 +36,15 @@ public class FeedParser {
 	private long lastBuildDate = 0;
 	
 	private long lastItemDate = 0;
+	
+	private Context context;
+	
+	private ItemDataSource itemDataSource;
+	
+	public FeedParser(Context context) {
+		this.context = context;
+		itemDataSource = new ItemDataSource(context);
+	}
 	
 	public void init() {
 		if(parser != null) {
@@ -79,13 +93,30 @@ public class FeedParser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		processFeed();
+		
+		filterByDate();
+		filterByLink();
+	}
+	
+	protected void filterByLink() {
+		List<RSSItem> items = handler.getFeed().getItems();
+		if(items.size() == 0) return;
+		
+		itemDataSource.open();
+		ListIterator<RSSItem> iter = items.listIterator();
+		while(iter.hasNext()) {
+			RSSItem item = iter.next();
+			if(itemDataSource.isExist(item.getLink())) {
+				iter.remove();
+			}
+		}
+		itemDataSource.close();
 	}
 	
 	/**
 	 * remove some old feed.
 	 */
-	protected void processFeed() {
+	protected void filterByDate() {
 		RSSFeed rssFeed = handler.getFeed();
 		System.out.println("process feed");
 		if(!rssFeed.valid()) return;
@@ -95,7 +126,6 @@ public class FeedParser {
 		
 		if(rssFeed.getLastBuildTimestamp() <= lastBuildDate) {
 			rssFeed.removeAll();
-			System.out.println("remove all");
 		}else {
 			
 			List<RSSItem> items = rssFeed.getItems();
@@ -110,6 +140,7 @@ public class FeedParser {
 		}
 			
 	}
+	
 	
 	/**
 	 * stop feed parse and disconnect http connection.

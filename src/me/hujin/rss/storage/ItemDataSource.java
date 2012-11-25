@@ -81,5 +81,20 @@ public class ItemDataSource extends DataSourceBase{
 		return item;
 	}
 	
-	//public String 
+	/**
+	 * Checking for whether the given link of feed item is exist.
+	 * 
+	 * @param link
+	 * @return
+	 */
+	public boolean isExist(String link) {
+		Cursor cursor = db.query("item", new String[]{"count(*)"}, 
+				"link='" + link + "'", null, null, null, null);
+		long count = 0;
+		cursor.moveToFirst();
+		if(!cursor.isAfterLast()) {
+			count = cursor.getLong(0);
+		}
+		return count > 0 ? true : false;
+	}
 }

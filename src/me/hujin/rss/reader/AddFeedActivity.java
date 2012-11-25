@@ -117,18 +117,24 @@ public class AddFeedActivity extends Activity {
     	
     	public void onClick(View v) {
     		String name = feedName.getText().toString();
-            String url = feedUrl.getText().toString();
+            String url = feedUrl.getText().toString().trim();
             
-            if(url.trim().equals("")) {
+            if(url.equals("")) {
             	feedUrl.requestFocus();
             	return;
             }
+            
             if(!new AppUtil(activity).checkConnectify()) {
             	return;
             }
-            System.out.println(name);
-            System.out.println(url);
             
+            feedDataSource.open();
+            if(feedDataSource.isExist(url)) {
+            	Toast.makeText(activity, R.string.toast_feed_exist, Toast.LENGTH_SHORT).show();
+            	return;
+            }
+            feedDataSource.close();
+           
             createThread();
             dialog.show();
     	}
@@ -165,7 +171,7 @@ public class AddFeedActivity extends Activity {
 		public void run() {
 			super.run();
 			
-			parser = new FeedParser();
+			parser = new FeedParser(activity);
 			parser.load(feedUrl.getText().toString());
 			
 			RSSFeed feed = parser.getFeed();

@@ -46,6 +46,6 @@
     <string name="toast_rename_feed_success">Rename Feed Success</string>
     <string name="toast_rename_feed_failed">Rename Feed Failed</string>
     
-    
+    <string name="toast_feed_exist">The Feed is Exist</string>
     
 </resources>
