@@ -18,7 +18,7 @@ public class FeedDataSource extends DataSourceBase{
 	public Feed addFeed(RSSFeed rssFeed) {
 		Feed newFeed = new Feed();
 		ContentValues values = new ContentValues();
-		values.put("title", rssFeed.title);
+		values.put("title", rssFeed.title.trim());
 		values.put("description", rssFeed.description);
 		values.put("link", rssFeed.link);
 		values.put("last_build_date", rssFeed.getLastBuildTimestamp());

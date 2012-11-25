@@ -32,7 +32,7 @@ public class ItemDataSource extends DataSourceBase{
 			Item item = new Item();
 			RSSItem rssItem = rssItems.get(i);
 			ContentValues values = new ContentValues();
-			values.put("title", rssItem.getTitle());
+			values.put("title", rssItem.getTitle().trim());
 			values.put("author", rssItem.getCreator());
 			values.put("pub_date", rssItem.getTimestamp());
 			values.put("link", rssItem.getLink());

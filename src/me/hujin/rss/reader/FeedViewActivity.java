@@ -4,6 +4,7 @@ import me.hujin.rss.storage.Feed;
 import me.hujin.rss.storage.Item;
 import me.hujin.rss.storage.ItemDataSource;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -47,6 +48,7 @@ public class FeedViewActivity extends Activity {
     	webView.loadDataWithBaseURL(null, 
     			"<html><body>" + item.getContentExt() + "</body></html>", 
     			"text/html", "utf-8", null);
+    	dataSource.close();
     }
     
     
@@ -59,7 +61,6 @@ public class FeedViewActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		dataSource.close();
 	}
 
     public void showFeedItemInfo(View view) {
@@ -67,6 +68,8 @@ public class FeedViewActivity extends Activity {
     }
     
     public void backToHome(View view) {
-    	finish();
+    	Intent intent = new Intent(FeedViewActivity.this, MainActivity.class);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	startActivity(intent);
     }
 }

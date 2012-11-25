@@ -6,6 +6,7 @@ import me.hujin.rss.reader.R;
 import me.hujin.rss.storage.Feed;
 import me.hujin.rss.storage.FeedDataSource;
 import me.hujin.rss.storage.ItemDataSource;
+import me.hujin.rss.util.AppUtil;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -122,7 +123,9 @@ public class AddFeedActivity extends Activity {
             	feedUrl.requestFocus();
             	return;
             }
-            
+            if(!new AppUtil(activity).checkConnectify()) {
+            	return;
+            }
             System.out.println(name);
             System.out.println(url);
             

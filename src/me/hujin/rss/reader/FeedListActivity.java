@@ -9,6 +9,7 @@ import me.hujin.rss.storage.Feed;
 import me.hujin.rss.storage.FeedDataSource;
 import me.hujin.rss.storage.Item;
 import me.hujin.rss.storage.ItemDataSource;
+import me.hujin.rss.util.AppUtil;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -87,7 +88,9 @@ public class FeedListActivity extends ListActivity {
 	 * @param view
 	 */
 	public void refreshFeedList(View view) {
-		
+		if(!new AppUtil(activity).checkConnectify()) {
+			return;
+		}
 		dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.add_feed_progress);
@@ -106,6 +109,7 @@ public class FeedListActivity extends ListActivity {
 		public void run() {
 			
 			super.run();
+			
 			FeedParser parser = new FeedParser();
 			parser.setLastBuildDate(currentFeed.getLastBuildDate())
 				.setLastItemDate(currentFeed.getLastItemDate());
