@@ -113,6 +113,7 @@ public class AddFeedActivity extends Activity {
             
             if(url.equals("")) {
             	feedUrl.requestFocus();
+            	Toast.makeText(activity, R.string.toast_add_feed_url_cannot_blank, Toast.LENGTH_SHORT).show();
             	return;
             }
             
@@ -164,7 +165,11 @@ public class AddFeedActivity extends Activity {
 			super.run();
 			
 			parser = new FeedParser(activity);
-			parser.load(feedUrl.getText().toString());
+			String url = feedUrl.getText().toString();
+			if(!url.startsWith("http://") && !url.startsWith("https://")) {
+				url = "http://" + url;
+			}
+			parser.load(url);
 			
 			RSSFeed feed = parser.getFeed();
 			if(feed.valid()) {

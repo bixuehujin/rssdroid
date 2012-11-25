@@ -50,4 +50,7 @@
     <string name="toast_rename_feed_failed">重命名失败</string>
     
     <string name="toast_feed_exist">已订阅该RSS</string>
+    
+    <string name="toast_add_feed_url_cannot_blank">URL不能为空</string>
+    
 </resources>

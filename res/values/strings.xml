@@ -50,4 +50,6 @@
     
     <string name="toast_feed_exist">The Feed is Exist</string>
     
+    <string name="toast_add_feed_url_cannot_blank">URL Cann\'t be Blank</string>
+    
 </resources>
