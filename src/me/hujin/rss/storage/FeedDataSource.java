@@ -117,7 +117,7 @@ public class FeedDataSource extends DataSourceBase{
 		
 		Cursor cursor = db.query(RssRoidSqliteHelper.TB_ITEM, 
 				new String[]{"id", "title", "author"}, 
-				"fid=" + fid, null, null, null, "pub_date DESC");
+				"fid=" + fid, null, null, null, "id DESC");
 		
 		cursor.moveToFirst();
 		

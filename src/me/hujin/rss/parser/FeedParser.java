@@ -107,6 +107,7 @@ public class FeedParser {
 		while(iter.hasNext()) {
 			RSSItem item = iter.next();
 			if(itemDataSource.isExist(item.getLink())) {
+				System.out.println("removing: " + item.getTitle());
 				iter.remove();
 			}
 		}
@@ -125,6 +126,7 @@ public class FeedParser {
 		if(lastBuildDate <= 0) return;
 		
 		if(rssFeed.getLastBuildTimestamp() <= lastBuildDate) {
+			System.out.println("removing all");
 			rssFeed.removeAll();
 		}else {
 			
@@ -134,6 +136,7 @@ public class FeedParser {
 			while(iter.hasNext()) {
 				RSSItem item = iter.next();
 				if(item.getTimestamp() <= lastItemDate) {
+					System.out.println("remove item by date: " + item.getTitle());
 					iter.remove();
 				}
 			}

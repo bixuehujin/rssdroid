@@ -42,7 +42,7 @@ public class RSSItem {
 	}
 	
 	public String getTitle() {
-		return this.title;
+		return this.title.trim();
 	}
 	
 	public RSSItem setTitle(String title) {
@@ -127,7 +127,7 @@ public class RSSItem {
 	
 	public long getTimestamp() {
 		if(pubDate == null) {
-			return 0;
+			pubDate = getPubDate();
 		}
 		
 		return new RssDateTime(pubDate).getTimestamp();
